@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Job Search</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Busca de Vagas no LinkedIn</h1>
+        <form id="search-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="keyword">Palavra-chave (obrigatório)</label>
+                    <input type="text" id="keyword" name="keyword" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Localização (obrigatório)</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateSincePosted">Data de Postagem</label>
+                    <select id="dateSincePosted" name="dateSincePosted">
+                        <option value="">Qualquer</option>
+                        <option value="past_24_hours">Últimas 24 horas</option>
+                        <option value="past_week">Última semana</option>
+                        <option value="past_month">Último mês</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="jobType">Tipo de Vaga</label>
+                    <select id="jobType" name="jobType">
+                        <option value="">Qualquer</option>
+                        <option value="full_time">Tempo Integral</option>
+                        <option value="part_time">Meio Período</option>
+                        <option value="contract">Contrato</option>
+                        <option value="temporary">Temporário</option>
+                        <option value="internship">Estágio</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="remoteFilter">Filtro Remoto</label>
+                    <select id="remoteFilter" name="remoteFilter">
+                        <option value="">Qualquer</option>
+                        <option value="remote">Apenas Remoto</option>
+                        <option value="hybrid">Híbrido</option>
+                        <option value="on_site">Apenas Presencial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="salary">Salário (ex: 100000)</label>
+                    <input type="number" id="salary" name="salary">
+                </div>
+                <div class="form-group">
+                    <label for="experienceLevel">Nível de Experiência</label>
+                    <select id="experienceLevel" name="experienceLevel">
+                        <option value="">Qualquer</option>
+                        <option value="internship">Estágio</option>
+                        <option value="entry_level">Iniciante</option>
+                        <option value="associate">Associado</option>
+                        <option value="mid_senior_level">Pleno-Sênior</option>
+                        <option value="director">Diretor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="limit">Limite de Resultados</label>
+                    <select id="limit" name="limit">
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                <label for="sortBy">Ordenar Por</label>
+                <select id="sortBy" name="sortBy">
+                    <option value="recent">Mais Recentes</option>
+                    <option value="relevant">Mais Relevantes</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <div class="form-group-checkbox">
+                <input type="checkbox" id="noCache" name="noCache" value="true">
+                <label for="noCache">Forçar nova busca (ignorar cache)</label>
+            </div>
+            <button type="submit">Buscar Vagas</button>
+        </div>
+    </form>
+
+        <div id="loading" class="hidden">Buscando...</div>
+        
+        <div id="results-container" class="hidden">
+            <h2>Resultados</h2>
+            <div class="download-buttons">
+                <button id="download-json">Baixar JSON</button>
+                <button id="download-csv">Baixar CSV</button>
+            </div>
+            <div class="table-wrapper">
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Empresa</th>
+                            <th>Localização</th>
+                            <th>Data</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Os resultados serão inseridos aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+         <div id="error-message" class="hidden"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

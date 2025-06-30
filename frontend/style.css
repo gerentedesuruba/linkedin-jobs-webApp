@@ -1,0 +1,186 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #1c1e21;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    color: #1877f2;
+    border-bottom: 1px solid #dddfe2;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#search-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-group-checkbox input {
+    margin-right: 8px;
+}
+
+.form-group-checkbox label {
+    font-size: 14px;
+    color: #606770;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #606770;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px 12px;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #1877f2;
+    box-shadow: 0 0 0 2px #e7f3ff;
+}
+
+button {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-start;
+}
+
+button:hover {
+    background-color: #166fe5;
+}
+
+#loading {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #1877f2;
+}
+
+#results-container {
+    margin-top: 30px;
+}
+
+.download-buttons {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+#download-json, #download-csv {
+    background-color: #42b72a;
+}
+#download-json:hover, #download-csv:hover {
+    background-color: #36a420;
+}
+
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #dddfe2;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    /* Permitir quebra de linha para conteúdo longo */
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Ajuste de largura para colunas específicas */
+th:nth-child(1), td:nth-child(1) { width: 35%; } /* Título */
+th:nth-child(2), td:nth-child(2) { width: 35%; } /* Empresa */
+th:nth-child(3), td:nth-child(3) { width: 15%; } /* Localização */
+th:nth-child(4), td:nth-child(4) { width: 10%; } /* Data */
+th:nth-child(5), td:nth-child(5) { width: 5%;  } /* Link */
+
+th {
+    background-color: #f5f6f7;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f0f2f5;
+}
+
+a {
+    color: #1877f2;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+#error-message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fbe3e4;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+    border-radius: 6px;
+}

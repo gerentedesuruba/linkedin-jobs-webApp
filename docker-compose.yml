@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    volumes:
+      # Mapeia o código local para o container para desenvolvimento ao vivo
+      - ./backend:/usr/src/app
+      # Usa um volume anônimo para node_modules para evitar sobrescrever
+      # os módulos instalados no container com os do host (se houver).
+      - /usr/src/app/node_modules
+    # O backend não precisa ser exposto ao host,
+    # pois o Nginx (frontend) se comunicará com ele pela rede interna do Docker.
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80" # Expõe a porta 80 do Nginx para a porta 8080 do seu PC
+    volumes:
+      # Mapeia os arquivos do frontend para desenvolvimento ao vivo
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - backend # Garante que o backend seja iniciado antes do frontend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
