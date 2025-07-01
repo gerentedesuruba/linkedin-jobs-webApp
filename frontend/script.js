@@ -7,12 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadCsvButton = document.getElementById('download-csv');
     const errorMessageDiv = document.getElementById('error-message');
 
+    // Elementos do Modal
+    const modal = document.getElementById('job-details-modal');
+    const modalCloseButton = document.querySelector('.close-button');
+    const modalJobTitle = document.getElementById('modal-job-title');
+    const modalCompanyName = document.getElementById('modal-company-name');
+    const modalLocation = document.getElementById('modal-location');
+    const modalDate = document.getElementById('modal-date');
+    const modalRemote = document.getElementById('modal-remote');
+    const modalDescriptionContent = document.getElementById('modal-description-content');
+    const modalLinkedinLink = document.getElementById('modal-linkedin-link');
+
     let currentResults = [];
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Reset UI
         loadingDiv.classList.remove('hidden');
         resultsContainer.classList.add('hidden');
         errorMessageDiv.classList.add('hidden');
@@ -22,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(form);
         const params = new URLSearchParams();
 
-        // Construir os parâmetros da query, ignorando campos vazios
         for (const [key, value] of formData.entries()) {
             if (value) {
                 params.append(key, value);
@@ -30,9 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // O frontend (Nginx) e o backend (Node) estarão na mesma rede Docker.
-            // Vamos configurar o Nginx para redirecionar requisições de /api/* para o serviço backend.
-            // Isso evita problemas com CORS e esconde a URL do backend do cliente.
             const response = await fetch(`/api/jobs?${params.toString()}`);
             
             if (!response.ok) {
@@ -43,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data && data.length > 0) {
-                currentResults = data;
-                displayResults(data);
+                currentResults = data.map((job, index) => ({ ...job, id: index }));
+                displayResults(currentResults);
                 resultsContainer.classList.remove('hidden');
             } else {
                 showError('Nenhuma vaga encontrada para os critérios informados.');
@@ -66,11 +72,69 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${job.company || 'N/A'}</td>
                 <td>${job.location || 'N/A'}</td>
                 <td>${job.agoTime || 'N/A'}</td>
-                <td><a href="${job.jobUrl}" target="_blank">Ver Vaga</a></td>
+                <td><button class="view-details-btn" data-job-id="${job.id}">Ver Detalhes</button></td>
             `;
             resultsTableBody.appendChild(row);
         });
+
+        // Adicionar event listeners para os novos botões
+        document.querySelectorAll('.view-details-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const jobId = e.target.getAttribute('data-job-id');
+                const job = currentResults.find(j => j.id == jobId);
+                openModalWithJob(job);
+            });
+        });
     }
+
+    async function openModalWithJob(job) {
+        modal.classList.remove('hidden');
+        
+        // Preencher informações básicas
+        modalJobTitle.textContent = job.position || 'N/A';
+        modalCompanyName.textContent = job.company || 'N/A';
+        modalLocation.textContent = job.location || 'N/A';
+        modalDate.textContent = job.agoTime || 'N/A';
+        modalRemote.textContent = job.remoteFilter ? (job.remoteFilter === 'remote' ? 'Sim' : 'Não') : 'N/A';
+        modalLinkedinLink.href = job.jobUrl;
+
+        // Limpar descrição anterior e mostrar loader
+        modalDescriptionContent.innerHTML = '<div class="loader-modal"></div>';
+
+        // Verificar se a descrição já está em cache
+        if (job.description) {
+            modalDescriptionContent.innerHTML = job.description;
+            return;
+        }
+
+        // Se não, buscar no backend
+        try {
+            const response = await fetch(`/api/description?url=${encodeURIComponent(job.jobUrl)}`);
+            if (!response.ok) {
+                throw new Error('Não foi possível carregar a descrição.');
+            }
+            const data = await response.json();
+            
+            // Armazenar em cache e exibir
+            job.description = data.description;
+            modalDescriptionContent.innerHTML = data.description;
+
+        } catch (error) {
+            console.error('Erro ao buscar descrição:', error);
+            modalDescriptionContent.innerHTML = `<p style="color: red;">${error.message}</p>`;
+        }
+    }
+
+    function closeModal() {
+        modal.classList.add('hidden');
+    }
+
+    modalCloseButton.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            closeModal();
+        }
+    });
 
     function showError(message) {
         errorMessageDiv.textContent = message;
@@ -112,10 +176,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function convertToCSV(data) {
+        if (data.length === 0) return '';
         const headers = Object.keys(data[0]);
         const replacer = (key, value) => value === null ? '' : value;
         const csvRows = data.map(row => 
-            headers.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(',')
+            headers.map(fieldName => {
+                let value = row[fieldName] === null || row[fieldName] === undefined ? '' : row[fieldName];
+                // Tratar strings que contêm aspas ou vírgulas
+                if (typeof value === 'string') {
+                    value = `"${value.replace(/"/g, '""')}"`;
+                }
+                return value;
+            }).join(',')
         );
         return [headers.join(','), ...csvRows].join('\r\n');
     }

@@ -115,6 +115,25 @@
         </div>
          <div id="error-message" class="hidden"></div>
     </div>
+
+    <!-- Modal para exibir detalhes da vaga -->
+    <div id="job-details-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-job-title"></h2>
+            <p><strong>Empresa:</strong> <span id="modal-company-name"></span></p>
+            <p><strong>Localização:</strong> <span id="modal-location"></span></p>
+            <p><strong>Data:</strong> <span id="modal-date"></span></p>
+            <p><strong>Remoto:</strong> <span id="modal-remote"></span></p>
+            <hr>
+            <h3>Descrição da Vaga</h3>
+            <div id="modal-description-content">
+                <div class="loader-modal"></div>
+            </div>
+            <a id="modal-linkedin-link" href="#" target="_blank" class="linkedin-button">Ver no LinkedIn</a>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
