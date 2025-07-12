@@ -17,7 +17,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "8080:80" # Expõe a porta 80 do Nginx para a porta 8080 do seu PC
+      - "8081:80" # Expõe a porta 80 do Nginx para a porta 8080 do seu PC
     volumes:
       # Mapeia os arquivos do frontend para desenvolvimento ao vivo
       - ./frontend:/usr/share/nginx/html

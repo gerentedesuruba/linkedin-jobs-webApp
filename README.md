@@ -45,7 +45,7 @@ ou
    ```
 
 4. **Acesse a aplicação:**
-   Abra seu navegador e acesse `http://localhost:8080`.
+   Abra seu navegador e acesse `http://localhost:8081`.
 
 ## Como Usar
 
@@ -70,7 +70,7 @@ ou
 
 Para parar os containers, simplesmente execute:
     ```bash
-    docker-compose up -d
+    docker-compose down
     ```
 ou
     ```bash
