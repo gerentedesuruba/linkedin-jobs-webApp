@@ -104,7 +104,7 @@ backend/.dynamodb/
 backend/.tern-port
 
 # Notes directory
-/notes/
+notes
 
 # Enviroment variables
 .env
