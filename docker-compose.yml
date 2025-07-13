@@ -26,6 +26,19 @@ services:
     networks:
       - app-network
 
+  cloudflared-tunnel:
+  #http://kubernetes.docker.internal:20241 >> endereço do host no claudfare
+   container_name: cloudfared-tunnel-jobs
+   image: cloudflare/cloudflared:latest
+   ports:
+    - 20242:20241
+   command: tunnel --no-autoupdate run
+   restart: unless-stopped
+   environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+   networks:
+    - app-network
+
 networks:
   app-network:
     driver: bridge

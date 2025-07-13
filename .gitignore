@@ -105,3 +105,6 @@ backend/.tern-port
 
 # Notes directory
 /notes/
+
+# Enviroment variables
+.env
