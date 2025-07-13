@@ -9,7 +9,7 @@ deploy:
 	docker compose up --build -d
 	@echo "------------------------------------------------------"
 	@echo "✅ Serviços iniciados com sucesso!"
-	@echo "   Frontend acessível em: http://localhost:8080"
+	@echo "   Frontend acessível em: http://localhost:8081"
 	@echo "------------------------------------------------------"
 	@make clean
 

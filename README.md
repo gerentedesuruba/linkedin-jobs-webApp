@@ -45,7 +45,7 @@ ou
    ```
 
 4. **Acesse a aplicação:**
-   Abra seu navegador e acesse `http://localhost:8080`.
+   Abra seu navegador e acesse `http://localhost:8081`.
 
 ## Como Usar
 
@@ -55,6 +55,12 @@ ou
 2. Clique em "Buscar Vagas".
 3. Os resultados serão exibidos na tabela.
 4. Você pode baixar os resultados nos formatos JSON ou CSV usando os botões correspondentes.
+
+## Observações
+
+1. Esse projeto usa o serviço de Tunels da Cloudfare para o Docker:
+   - [Cloudfared](https://hub.docker.com/r/cloudflare/cloudflared)
+2. Para usar o seu tunel, crie um arquivo chamado `.env` na pasta raiz desse projeto e adicione a seguinte variavel `TUNNEL_TOKEN=cole_seu_token_aqui`
 
 ## Estrutura do Projeto
 
@@ -70,7 +76,7 @@ ou
 
 Para parar os containers, simplesmente execute:
     ```bash
-    docker-compose up -d
+    docker-compose down
     ```
 ou
     ```bash

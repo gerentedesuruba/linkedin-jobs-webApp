@@ -17,7 +17,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "8080:80" # Expõe a porta 80 do Nginx para a porta 8080 do seu PC
+      - "8081:80" # Expõe a porta 80 do Nginx para a porta 8080 do seu PC
     volumes:
       # Mapeia os arquivos do frontend para desenvolvimento ao vivo
       - ./frontend:/usr/share/nginx/html
@@ -25,6 +25,19 @@ services:
       - backend # Garante que o backend seja iniciado antes do frontend
     networks:
       - app-network
+
+  cloudflared-tunnel:
+  #http://kubernetes.docker.internal:20241 >> endereço do host no claudfare
+   container_name: cloudfared-tunnel-jobs
+   image: cloudflare/cloudflared:latest
+   ports:
+    - 20242:20241
+   command: tunnel --no-autoupdate run
+   restart: unless-stopped
+   environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+   networks:
+    - app-network
 
 networks:
   app-network:
